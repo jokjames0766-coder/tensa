@@ -1,37 +1,33 @@
 const express = require("express");
-const app = express();
+const path = require("path");
 
-app.use(express.json());
-app.use(express.static("public"));
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 let services = [];
 
-app.get("/services", (req, res) =>{
-    res.json(services);
-  });
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/services", (req, res) => {
+  res.json(services);
 });
 
-app.post("/services", (req, res) =>{
-  services.push(req.body);
-  res.json({message:"service added"});
+app.post("/services", (req, res) => {
+  const service = req.body;
+  services.push(service);
+  res.json({ message: "Service added" });
 });
 
-   app.delete("/services/:index",(req, res) =>{
-     const index = req.params.index;
-     services.splice(index,1);
-     res.json({message:"service deleted"});
-   });
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, ()=>{
- console.log("Tensa server running at http://localhost:"+{PORT});
+app.delete("/services/:index", (req, res) => {
+  const index = req.params.index;
+  services.splice(index, 1);
+  res.json({ message: "Service deleted" });
 });
 
-
-
-
-
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 
 
