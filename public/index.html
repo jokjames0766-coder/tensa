@@ -10,27 +10,36 @@
 <div class="container">
 
 <h1>Tensa</h1>
-<p class="subtitle">Find Local Services</p>
+<h2>Find Local Services</h2>
 
-<div class="topbar">
-  <input type="text" id="search" placeholder="Search services...">
-</div>
+<input type="text" id="search" placeholder="Search services...">
 
 <h3>Register a Service</h3>
 
 <form id="serviceForm">
-  <input id="worker" placeholder="Worker name" />
-  <input id="name" placeholder="Service type (Electrician, Plumber)" />
-  <input id="description" placeholder="Service description" />
-  <input id="phone" placeholder="Phone number" />
-  <input id="location" placeholder="Location" />
 
-  <button type="submit">Add Service</button>
+<label>Worker name</label>
+<input type="text" id="name" required>
+
+<label>Service type (Electrician, Plumber)</label>
+<input type="text" id="type" required>
+
+<label>Service description</label>
+<input type="text" id="description">
+
+<label>Phone number</label>
+<input type="text" id="phone">
+
+<label>Location</label>
+<input type="text" id="location">
+
+<button type="submit">Add Service</button>
+
 </form>
 
-<div class="services" id="services" ></div>
+<hr>
 
-</div>
+<div id="services" ></div>
 
 <script src="app.js></script>
 
