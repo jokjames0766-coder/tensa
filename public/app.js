@@ -1,64 +1,102 @@
-const form = document.getElementById("serviceForm");
-const servicesList = document.getElementById("services");
+async function loadServices(){
 
-async function loadServices() {
-  const res = await fetch("/services");
-  const services = await res.json();
+const res = await fetch("/services");
 
-  servicesList.innerHTML = "";
+const services = await res.json();
 
-  services.forEach((service, index) => {
-    const div = document.createElement("div")
+const container = document.getElementById("services");
 
-    div.innerHTML = `
-      <h3>${service.name}</h3>
-      <p>${service.type}</p>
-      <p>${service.description}</p>
-      <p>${service.phone}</p>
-      <p>${service.location}</p>
-      <button onclick="deleteService(${index})">Delete</button>
-      <hr>
-     `;
+container.innerHTML="";
 
-     servicesList.appendChild(div);
-   });
- }
+services.forEach((s,index)=>{
 
- form.addEventListener("submit", async (e) => {
-   e.preventDefault();
+const card=document.createElement("div");
 
-   const service = {
-     name: document.getElementById("name").value,
-     type: document.getElementById("type").value,
-     description: document.getElementById("description").value,
-     phone: document.getElementById("phone").value,
-     location: document.getElementById("location").value,
-  };
+card.className="card";
 
-  await fetch("/services", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(service),
-  });
+card.innerHTML=`
 
-  form.reset();
-  loadServices();
+<h3>${s.name}</h3>
+
+<p><b>Service:</b> ${s.type}</p>
+
+<p>${s.description}</p>
+
+<p><b>Phone:</b> ${s.phone}</p>
+
+<p><b>Location:</b> ${s.location}</p>
+
+<p><b>Rating:</b> ⭐ ${s.rating}</p>
+
+<button class="delete" onclick="deleteService(${index})">Delete</button>
+
+`;
+
+container.appendChild(card);
+
 });
 
-async function deleteService(index) {
-  await fetch("/services/" + index, {
-    method: "DELETE",
-  });
-
-  loadServices();
 }
+
+async function addService(){
+
+const name=document.getElementById("name").value;
+
+const type=document.getElementById("type").value;
+
+const description=document.getElementById("description").value;
+
+const phone=document.getElementById("phone").value;
+
+const location=document.getElementById("location").value;
+
+const rating=document.getElementById("rating").value;
+
+await fetch("/services",{
+
+method:"POST",
+
+headers:{"Content-Type":"application/json"},
+
+body:JSON.stringify({name,type,description,phone,location,rating})
+
+});
 
 loadServices();
 
+}
 
+async function deleteService(index){
 
+await fetch("/services/"+index,{method:"DELETE"});
+
+loadServices();
+
+}
+
+function searchServices(){
+
+const search=document.getElementById("search").value.toLowerCase();
+
+const cards=document.querySelectorAll(".card");
+
+cards.forEach(card=>{
+
+if(card.innerText.toLowerCase().includes(search)){
+
+card.style.display="block";
+
+}else{
+
+card.style.display="none";
+
+}
+
+});
+
+}
+
+loadServices();
 
 
 

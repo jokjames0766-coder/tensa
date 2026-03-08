@@ -1,43 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Tensa</title>
+  <title>Tensa - Find Local Services</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="container">
+<h1>Find Local Services</h1>
 
-<h1>Tensa</h1>
-<h2>Find Local Services</h2>
+<input id="search" placeholder="Search services..." onkeyup="searchServices()">
 
-<input type="text" id="search" placeholder="Search services...">
+<h2>Register a Service</h2>
 
-<h3>Register a Service</h3>
+<input id="name" placeholder="Worker name">
 
-<form id="serviceForm">
+<input id="type" placeholder="Service type (Electrician, Plumber)">
 
-<label>Worker name</label>
-<input type="text" id="name" required>
+<input id="description" placeholder="Service description">
 
-<label>Service type (Electrician, Plumber)</label>
-<input type="text" id="type" required>
+<input id="phone" placeholder="Phone number">
 
-<label>Service description</label>
-<input type="text" id="description">
+<input id="location" placeholder="Location">
 
-<label>Phone number</label>
-<input type="text" id="phone">
+<input id="rating" placeholder="Rating (1-5)">
 
-<label>Location</label>
-<input type="text" id="location">
+<button onclick="addService()">Add Service</button>
 
-<button type="submit">Add Service</button>
-
-</form>
-
-<hr>
+<h2>Available Workers</h2>
 
 <div id="services"></div>
 
