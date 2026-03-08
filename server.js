@@ -7,14 +7,14 @@ app.use(express.static("public"));
 let services = [];
 
 app.get("/services", (req, res) =>{
-    res.json(rows);
+    res.json(services);
   });
 });
 
 app.post("/services", (req, res) =>{
   services.push(req.body);
   res.json({message:"service added"});
-}):
+});
 
    app.delete("/services/:index",(req, res) =>{
      const index = req.params.index;

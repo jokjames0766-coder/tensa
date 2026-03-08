@@ -24,7 +24,7 @@ async function loadServices() {
    });
  }
 
- form.addEventListener("submit", aasync (e) => {
+ form.addEventListener("submit", async (e) => {
    e.preventDefault();
 
    const service = {
