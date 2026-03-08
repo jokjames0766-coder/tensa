@@ -1,76 +1,95 @@
-let services = []
+const form = document.getElementById("serviceForm");
+const servicesList = document.getElementById("services");
 
 async function loadServices() {
-  const res = await fetch("/api/services");
-  services = await res.json();
-  displayServices(servies);
-}
+  const res = await fetch("/services");
+  const services = await res.json();
 
-function displayServices(list) {
-  const container = document.getElementById("services");
-  container.innerHTML = "";
+  servicesList.innerHTML = "";
 
-  list.forEach(service => {
-    const card = document.createElement("div");
-    card.className = "card";
+  services.forEach((service, index) => {
+    const div = document.createElement("div")
 
-    card.innerHTML =
-      <h3>${service.worker} - ${service.name}</h3>
+    div.innerHTML = `
+      <h3>${service.name}</h3>
+      <p>${service.type}</p>
       <p>${service.description}</p>
-      <p>${service.rating}</p>
-      <p>${service.location}</p>
       <p>${service.phone}</p>
-      <a href="tel:${service.phone}">
-        <button>Call</button>
-      </a>
-    `;
+      <p>${service.location}</p>
+      <button onclick="deleteService(${index})">Delete</button>
+      <hr>
+     `;
 
-    container.appendChild(card);
-  });
-}
+     servicesList.appendChild(div);
+   });
+ }
 
+ form.addEventListener("submit", aasync (e) => {
+   e.preventDefault();
 
-async function addService() {
- const worker = document.getElementById("worker").value;
- const name = document.getElementById("name").value;
- const description = document.getElementById("description").value;
- const phone = document.getElementById("phone").value;
- const location = document.getElementById("location").value;
+   const service = {
+     name: document.getElementById("name").value,
+     type: document.getElementById("type").value,
+     description: document.getElementById("description").value,
+     phone: document.getElementById("phone").value,
+     location: document.getElementById("location").value,
+  };
 
- if (!worker || !name || !description || !phone || !location) return;
-
-  await fetch("/api/services", {
+  await fetch("/services", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, description, phone })
+    body: JSON.stringify(service),
   });
 
-  document.getElementById("worker").value = "";
-  document.getElementById("name").value = "";
-  document.getElementById("description").value = "";
-  document.getElementById("phone").value = "";
-  document.getElementById("location").value = "";
-  document.getElementById("rationg: 5").value = "";
+  form.reset();
+  loadServices();
+});
+
+async function deleteService(index) {
+  await fetch("/services/" + index, {
+    method: "DELETE",
+  });
 
   loadServices();
 }
 
-document.getElementById("addBtn").addEventListener("click", addService);
-
-document.getElementById("search").addEventListener("input", (e) => {
-  const term = e.target.value.toLowerCase();
-
-  const filtered = services.filter(s =>
-    s.name.toLowerCase().includes(term) ||
-    s.description.toLowerCase().includes(term)
-  );
-
-  displayServices(filtered);
-});
-
 loadServices();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
