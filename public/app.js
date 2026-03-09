@@ -8,13 +8,13 @@ const container = document.getElementById("services");
 
 container.innerHTML="";
 
-services.forEach((s,index)=>{
+services.forEach(s=>{
 
 const card=document.createElement("div");
 
 card.className="card";
 
-card.innerHTML = `
+card.innerHTML=`
 
 <img src="${s.photo || 'https://via.placeholder.com/80'}">
 
@@ -29,8 +29,18 @@ card.innerHTML = `
 <p><b>Rating:</b> ⭐ ${s.rating}</p>
 
 <a href="https://wa.me/${s.phone}" target="_blank">
-<button class="whatsapp">Contact on WhatsApp</button>
+<button class="whatsapp">WhatsApp</button>
 </a>
+
+<input placeholder="Write review..." id="review-${s._id}">
+
+<button onclick="addReview('${s._id}')">Add Review</button>
+
+<div>
+
+${s.reviews.map(r=>`<p>💬 ${r}</p>`).join("")}
+
+</div>
 
 <button class="delete" onclick="deleteService('${s._id}')">Delete</button>
 
@@ -45,16 +55,12 @@ container.appendChild(card);
 async function addService(){
 
 const name=document.getElementById("name").value;
-
 const type=document.getElementById("type").value;
-
 const description=document.getElementById("description").value;
-
 const phone=document.getElementById("phone").value;
-
 const location=document.getElementById("location").value;
-
 const rating=document.getElementById("rating").value;
+const photo=document.getElementById("photo").value;
 
 await fetch("/services",{
 
@@ -62,7 +68,25 @@ method:"POST",
 
 headers:{"Content-Type":"application/json"},
 
-body:JSON.stringify({name,type,description,phone,location,rating})
+body:JSON.stringify({name,type,description,phone,location,rating,photo,reviews:[]})
+
+});
+
+loadServices();
+
+}
+
+async function addReview(id){
+
+const review=document.getElementById("review-"+id).value;
+
+await fetch("/reviews/"+id,{
+
+method:"POST",
+
+headers:{"Content-Type":"application/json"},
+
+body:JSON.stringify({review})
 
 });
 
@@ -71,8 +95,11 @@ loadServices();
 }
 
 async function deleteService(id){
+
 await fetch("/services/"+id,{method:"DELETE"});
+
 loadServices();
+
 }
 
 function searchServices(){
@@ -98,7 +125,6 @@ card.style.display="none";
 }
 
 loadServices();
-
 
 
 

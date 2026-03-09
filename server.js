@@ -18,7 +18,9 @@ type:String,
 description:String,
 phone:String,
 location:String,
-rating:String
+rating:String,
+photo:String,
+reviews:[String]
 });
 
 const Service = mongoose.model("Service", serviceSchema);
@@ -34,6 +36,13 @@ await service.save();
 res.json({message:"Service saved"});
 });
 
+app.post("/reviews/:id", async (req,res)=>{
+const service = await Service.findById(req.params.id);
+service.reviews.push(req.body.review);
+await service.save();
+res.json({message:"Review added"});
+});
+
 app.delete("/services/:id", async (req,res)=>{
 await Service.findByIdAndDelete(req.params.id);
 res.json({message:"Service deleted"});
@@ -42,9 +51,3 @@ res.json({message:"Service deleted"});
 app.listen(PORT, ()=>{
 console.log("Server running on port "+PORT);
 });
-
-
-
-
-
-
