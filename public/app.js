@@ -14,7 +14,9 @@ const card=document.createElement("div");
 
 card.className="card";
 
-card.innerHTML=`
+card.innerHTML = `
+
+<img src="${s.photo || 'https://via.placeholder.com/80'}">
 
 <h3>${s.name}</h3>
 
@@ -22,11 +24,13 @@ card.innerHTML=`
 
 <p>${s.description}</p>
 
-<p><b>Phone:</b> ${s.phone}</p>
-
 <p><b>Location:</b> ${s.location}</p>
 
 <p><b>Rating:</b> ⭐ ${s.rating}</p>
+
+<a href="https://wa.me/${s.phone}" target="_blank">
+<button class="whatsapp">Contact on WhatsApp</button>
+</a>
 
 <button class="delete" onclick="deleteService('${s._id}')">Delete</button>
 
