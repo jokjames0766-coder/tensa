@@ -28,7 +28,7 @@ card.innerHTML=`
 
 <p><b>Rating:</b> ⭐ ${s.rating}</p>
 
-<button class="delete" onclick="deleteService(${index})">Delete</button>
+<button class="delete" onclick="deleteService('${s._id}')">Delete</button>
 
 `;
 
@@ -66,12 +66,9 @@ loadServices();
 
 }
 
-async function deleteService(index){
-
-await fetch("/services/"+index,{method:"DELETE"});
-
+async function deleteService(id){
+await fetch("/services/"+id,{method:"DELETE"});
 loadServices();
-
 }
 
 function searchServices(){
